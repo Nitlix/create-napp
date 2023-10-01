@@ -17,9 +17,26 @@ async function main(){
             }
             return true
         }
-    })  
+    }) 
 
-    if (!response.value){
+
+    const types = [
+        "NitlixNextTemplate",
+        "NitlixTsTemplate"
+    ]
+
+    const type = await prompts({
+        //choice
+        type: "select",
+        name: "value",
+        message: "What template type are we using?",
+        choices: types.map((type) => {
+            return { title: type, value: type }
+        })
+    })
+
+
+    if (!response.value || !type.value) {
         errorLog(`Shutting down...`)
         return
     }
@@ -27,7 +44,7 @@ async function main(){
     tickLog(`Initiating in ${response.value}...`)
 
     try {
-        downloadAndExtractRepo(response.value)
+        downloadAndExtractRepo(response.value, type.value, "Nitlix")
     }
     catch (error) {
         errorLog(`Failed to download repo.`)

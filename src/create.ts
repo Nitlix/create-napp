@@ -4,8 +4,8 @@ import extract from 'extract-zip';
 import fse from 'fs-extra';
 import errorLog from "./errorLog";
 
-export async function downloadAndExtractRepo(folder: string) {
-    const url = 'https://github.com/Nitlix/NitlixNextTemplate/archive/refs/heads/main.zip';
+export async function downloadAndExtractRepo(folder: string, repo: string, author: string = "Nitlix") {
+    const url = `https://github.com/${author}/${repo}/archive/refs/heads/main.zip`;
     const response = await fetch(url);
     if (!response.ok){
         errorLog(`Failed to download repo: ${response.statusText}`)
@@ -27,7 +27,7 @@ export async function downloadAndExtractRepo(folder: string) {
 
     await fs.unlinkSync(zipPath);
 
-    const sourceFolder = path.join(outputPath, 'NitlixNextTemplate-main');
+    const sourceFolder = path.join(outputPath, `${repo}-main`);
     const files = await fse.readdir(sourceFolder);
     for (const file of files) {
         const sourceFilePath = path.join(sourceFolder, file);
