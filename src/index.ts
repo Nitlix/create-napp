@@ -6,7 +6,7 @@ import { downloadAndExtractRepo } from "./create";
 import tickLog from "./tickLog";
 import errorLog from "./errorLog";
 
-async function main(){
+async function main() {
     const response = await prompts({
         type: "text",
         name: "value",
@@ -17,12 +17,13 @@ async function main(){
             }
             return true
         }
-    }) 
+    })
 
 
     const types = [
         "NitlixNextTemplate",
-        "NitlixTsTemplate"
+        "NitlixTsTemplate",
+        "NitlixReactTemplate",
     ]
 
     const type = await prompts({
@@ -52,6 +53,6 @@ async function main(){
 
     tickLog("You're ready to go!")
     tickLog(`Run ${bgLightMagenta(`cd ${response.value}`)} and then ${bgLightMagenta("npm i")} to get started!`)
-}   
+}
 
 main()

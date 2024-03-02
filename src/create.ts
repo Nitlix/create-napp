@@ -7,7 +7,7 @@ import errorLog from "./errorLog";
 export async function downloadAndExtractRepo(folder: string, repo: string, author: string = "Nitlix") {
     const url = `https://github.com/${author}/${repo}/archive/refs/heads/main.zip`;
     const response = await fetch(url);
-    if (!response.ok){
+    if (!response.ok) {
         errorLog(`Failed to download repo: ${response.statusText}`)
         throw new Error()
     }
@@ -36,5 +36,9 @@ export async function downloadAndExtractRepo(folder: string, repo: string, autho
     }
 
     await fse.remove(sourceFolder);
-    await fse.remove(path.join(outputPath, '.git'));
+
+    const gitFolder = path.join(outputPath, '.git');
+    if (fs.existsSync(gitFolder)) {
+        await fse.remove(gitFolder);
+    }
 }
